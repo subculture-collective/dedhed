@@ -22,9 +22,10 @@ Public pilot: https://dedhed.subcult.tv
 
 Requirements: Go 1.26 or later, Node.js 24, pnpm 10.33.0 and PostgreSQL 17.
 
-Copy [`.env.example`](.env.example) to `.env` and point `DATABASE_URL` at a disposable database. Then, from `backend/`:
+Copy [`.env.example`](.env.example) to `.env` and point `DATABASE_URL` at a disposable database. The backend does not read `.env` itself, so export it first. Then, from `backend/`:
 
 ```sh
+set -a; . ../.env; set +a
 go run ./cmd/dedhed migrate
 go run ./cmd/dedhed seed
 go run ./cmd/dedhed serve
