@@ -10,6 +10,10 @@ It is a limited public pilot. Two reviewed audience recordings can be played, Fi
 
 Public pilot: https://dedhed.subcult.tv
 
+The production deployment uses the independent Arkhiv audio core. See the
+[core deployment runbook](docs/public-core-deployment.md) for the read-only
+serving role, scheduled replay, backups and retained legacy rollback.
+
 ## Features
 
 - **Play a tape.** Pick a reviewed recording and play a whole show or a single set. Pause, seek and track changes affect only your playback.
@@ -50,7 +54,9 @@ make test-integration   # database tests; needs a disposable TEST_DATABASE_URL
 
 ## API
 
-All public HTTP routes are read-only. Changes go through the `dedhed` CLI.
+All public HTTP routes are read-only. The legacy development app uses the
+`dedhed` CLI; production maintenance uses the pinned core operator described
+in the [deployment runbook](docs/public-core-deployment.md).
 
 | Route | Purpose |
 | --- | --- |

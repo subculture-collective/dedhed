@@ -1,7 +1,7 @@
 # Dedhed roadmap
 
 Status: the owner confirmed preview access and sound quality and approved a two-recording noncommercial public pilot. The approved pilot is live at https://dedhed.subcult.tv; natural daily maintenance and longer stability remain under observation.
-Updated: 2026-10-04. Delivery is ordered by evidence gates; no release dates are committed.
+Updated: 2026-11-15. Delivery is ordered by evidence gates; no release dates are committed.
 
 Dedhed starts with the Grateful Dead music collection at Internet Archive. V1
 combines a browsable concert library, on-demand playback of individual sets and
@@ -18,6 +18,10 @@ The [private pilot evidence report](docs/reports/private-pilot-2026-10-02.md)
 separates local and hosted checks, source comparison, browser playback, sustained
 delivery, and recovery. [Issue #19](https://github.com/subculture-collective/dedhed/issues/19)
 tracks the owner-reported sound-quality concern and an alternate audience source.
+
+The unchanged frontend passed browser playback and calendar qualification against
+the shared audio core. The [core cutover](docs/public-core-deployment.md) retains
+the two-recording public scope and the legacy stack for rollback.
 
 ## Delivery milestones
 
