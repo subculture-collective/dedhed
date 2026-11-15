@@ -54,7 +54,9 @@ only the superseded Dedhed key. Never reuse the general operator SSH identity.
 Install [core_runtime.py](../scripts/core_runtime.py) in the production root.
 The existing five-minute monitor invokes its `monitor` action. The 00:25 Central
 replay timer invokes `replay`, which runs `renew-public-audio` with the explicit
-two-recording `runtime/selection.json` and a 168-hour horizon. Renewal verifies
+two-recording `runtime/selection.json` and a 168-hour horizon. Monitoring and
+renewal resolve the currently running core image, so later automatic upgrades
+do not leave maintenance on the initial host pin. Renewal verifies
 current approvals and audio integrity; it neither discovers nor acquires media.
 The imported timeline remains unchanged at cutover; the next scheduled renewal
 has the same deliberate refresh behavior as the legacy daily job.
