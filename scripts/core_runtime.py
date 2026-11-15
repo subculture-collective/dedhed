@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 
 def monitor(root, base):
     def request(path, headers=None):
-        with urlopen(Request(base.rstrip('/') + path, headers=headers or {}), timeout=15) as response:
+        with urlopen(Request(base.rstrip('/') + path, headers={'User-Agent': 'Dedhed-public-monitor/1.0', **(headers or {})}), timeout=15) as response:
             return response.status, response.headers, response.read(1024 * 1024)
 
     def get(path):
