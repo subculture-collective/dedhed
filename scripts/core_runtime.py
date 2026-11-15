@@ -3,10 +3,17 @@ import argparse
 from datetime import datetime
 import fcntl
 import json
+import os
 from pathlib import Path
 import subprocess
 import time
 from urllib.request import Request, urlopen
+
+
+def running_image():
+    return subprocess.check_output([
+        'docker', 'inspect', '--format', '{{.Image}}', 'dedhed-core-core-1',
+    ], text=True, timeout=15).strip()
 
 
 def monitor(root, base):
@@ -19,8 +26,11 @@ def monitor(root, base):
 
     assert get('/api/ready')['status'] == 'ready', 'core not ready'
     version = get('/api/version')
-    expected = json.loads((root / 'core-release.json').read_text())
-    assert version['core_version'] == expected['version'], 'core version differs'
+    expected = subprocess.check_output([
+        'docker', 'image', 'inspect', '--format',
+        '{{index .Config.Labels \"org.opencontainers.image.version\"}}', running_image(),
+    ], text=True, timeout=15).strip()
+    assert version['core_version'] == expected, 'core version differs'
     selected = json.loads((root / 'runtime/selection.json').read_text())
     ids = {entry['item_id'] for entry in selected}
     catalog = get('/api/recordings')
@@ -56,7 +66,8 @@ def main():
                 'operator', 'renew-public-audio', '-collection', 'dedhed',
                 '-file', '/run/selection.json', '-hours', '168',
                 '-notes', 'Daily renewal of the two reviewed public pilot recordings',
-            ], check=True, capture_output=True, text=True, timeout=600)
+            ], check=True, capture_output=True, text=True, timeout=600,
+                env={**os.environ, 'ARCHIVE_ENGINE_IMAGE': running_image()})
             schedule = json.loads(process.stdout)
             result = {'schedule_revision': schedule['revision'], 'programs': len(schedule['programs'])}
         print(json.dumps({'action': args.action, **result}))
